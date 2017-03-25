@@ -4,19 +4,14 @@ import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by hanaria on 3/24/17.
- */
 public class FileManager {
-    //корневой путь директории
     private Path rootPath;
-    //список относительных путей файлов внутри rootPath
     private List<Path> fileList;
-    public FileManager(Path rootPath) throws IOException{
+
+    public FileManager(Path rootPath) throws IOException {
         this.rootPath = rootPath;
         this.fileList = new ArrayList<>();
         collectFileList(rootPath);
@@ -26,7 +21,7 @@ public class FileManager {
         return fileList;
     }
 
-    private void collectFileList(Path path) throws IOException{
+    private void collectFileList(Path path) throws IOException {
         // Добавляем только файлы
         if (Files.isRegularFile(path)) {
             Path relativePath = rootPath.relativize(path);
