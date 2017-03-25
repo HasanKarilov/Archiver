@@ -2,8 +2,6 @@ package com.javarush.task.task31.task3110;
 
 import com.javarush.task.task31.task3110.exception.PathIsNotFoundException;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -12,20 +10,14 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-/**
- * Created by hanaria on 3/23/17.
- *  ZipFileManager менеджер архива. Он будет совершать операции над файлом архива
- *  (файлом, который будет храниться на диске и иметь расширение zip).
- */
 public class ZipFileManager {
-    // В ней мы будем хранить полный путь к архиву, с которым будем работать.
-    private Path zipFile;
+    // Полный путь zip файла
+    private final Path zipFile;
 
     public ZipFileManager(Path zipFile) {
         this.zipFile = zipFile;
     }
 
-    //Path source – это путь к чему-то, что мы будем архивировать.
     public void createZip(Path source) throws Exception {
         // Проверяем, существует ли директория, где будет создаваться архив
         // При необходимости создаем ее
@@ -56,6 +48,7 @@ public class ZipFileManager {
             }
         }
     }
+
     private void addNewZipEntry(ZipOutputStream zipOutputStream, Path filePath, Path fileName) throws Exception {
         Path fullPath = filePath.resolve(fileName);
         try (InputStream inputStream = Files.newInputStream(fullPath)) {
@@ -68,6 +61,7 @@ public class ZipFileManager {
             zipOutputStream.closeEntry();
         }
     }
+
     private void copyData(InputStream in, OutputStream out) throws Exception {
         byte[] buffer = new byte[8 * 1024];
         int len;
@@ -75,4 +69,5 @@ public class ZipFileManager {
             out.write(buffer, 0, len);
         }
     }
+
 }
