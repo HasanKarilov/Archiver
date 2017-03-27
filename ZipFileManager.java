@@ -52,7 +52,43 @@ public class ZipFileManager {
             }
         }
     }
+    public void extractAll(Path outputFolder) throws Exception{
+        //Path outputFolder — это путь, куда мы будем распаковывать наш архив
 
+        // Проверяем существует ли zip файл
+        if(!Files.isRegularFile(zipFile)){
+            throw new WrongZipFileException();
+        }
+
+        try (ZipInputStream zipInputStream = new ZipInputStream(Files.newInputStream(zipFile))) {
+            // Создаем директорию вывода, если она не существует
+            if (Files.notExists(outputFolder))
+                Files.createDirectories(outputFolder);
+
+            // Проходимся по содержимому zip потока (файла)
+            ZipEntry zipEntry = zipInputStream.getNextEntry();
+
+            /*
+            3. Внутри архива некоторые файлы могут лежат внутри папок, тогда метод getName() элемента архива ZipEntry, вернет не совсем имя,
+            как может показаться из названия, а относительный путь внутри архива. Этот относительный путь должен сохраниться и после распаковки,
+            но уже относительно той директории, куда мы распаковали архив
+             */
+            while (zipEntry != null) {
+                String fileName = zipEntry.getName();
+                Path fileFullName = outputFolder.resolve(fileName);
+
+                // Создаем необходимые директории
+                Path parent = fileFullName.getParent();
+                if (Files.notExists(parent))
+                    Files.createDirectories(parent);
+
+                try (OutputStream outputStream = Files.newOutputStream(fileFullName)) {
+                    copyData(zipInputStream, outputStream);
+                }
+                zipEntry = zipInputStream.getNextEntry();
+            }
+        }
+    }
     public List<FileProperties> getFilesList() throws Exception {
         // Проверяем существует ли zip файл
         if (!Files.isRegularFile(zipFile)) {

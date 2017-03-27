@@ -7,6 +7,10 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * FileManager - рекурсивно проходит по содержимому директории
+ * и добавляет в fileList все файлы в директории и поддиректории
+ */
 public class FileManager {
     private Path rootPath;
     private List<Path> fileList;
