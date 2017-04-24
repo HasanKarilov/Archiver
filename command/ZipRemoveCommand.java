@@ -6,12 +6,10 @@ import com.javarush.task.task31.task3110.ZipFileManager;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-/**
- * Created by hanaria on 3/27/17.
- */
 public class ZipRemoveCommand extends ZipCommand {
     @Override
     public void execute() throws Exception {
+        ConsoleHelper.writeMessage("Удаление файла из архива.");
 
         ZipFileManager zipFileManager = getZipFileManager();
 
