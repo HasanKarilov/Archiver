@@ -25,6 +25,5 @@ public class ZipAddCommand extends ZipCommand {
         } catch (PathIsNotFoundException e) {
             ConsoleHelper.writeMessage("Файл не был найден.");
         }
-
     }
 }
